@@ -11,8 +11,8 @@ program
   .command('new <name>')
   .description('creates a react project using create-react-app and adds redux')
   .action(function (name) {
-    console.info('creating...');
-    exec("create-react-app " + name, function(error, stdout, stderr) {
+    console.info('creating ' + name + '...');
+    exec('create-react-app ' + name, function(error, stdout, stderr) {
       if (error) return console.error('error to create project, you must have create-react-app installed');
       console.info(stdout);
     });
@@ -23,7 +23,7 @@ program
   .command('init')
   .description('init redux in create-react-app project')
   .action(function (name) {
-    console.info('modifying...');
+    console.info('modifying ' + name + '...');
   });
 
 program
