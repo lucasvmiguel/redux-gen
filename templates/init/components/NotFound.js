@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const NotFound = ({message}) => (
+const NotFound = ({ message }) => (
   <div>
     <h1>{message}</h1>
   </div>
