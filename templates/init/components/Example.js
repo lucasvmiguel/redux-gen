@@ -5,3 +5,9 @@ const Example = ({title}) => (
     <h1>{title}</h1>
   </div>
 );
+
+Example.propTypes = {
+  title: PropTypes.string.isRequired
+};
+
+export default Example;

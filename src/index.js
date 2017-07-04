@@ -13,7 +13,7 @@ function createFolderWithFiles(folder, ownPath, projPath) {
   });
 }
 
-function createInitProject(name, ownPath, projPath) {
+function initProject(name, ownPath, projPath) {
   if (!fs.existsSync(path.join(projPath, '/src/actions'))) fs.mkdirSync(path.join(projPath + '/src/actions'));
   if (!fs.existsSync(path.join(projPath, '/src/components'))) fs.mkdirSync(path.join(projPath + '/src/components'));
   if (!fs.existsSync(path.join(projPath, '/src/constants'))) fs.mkdirSync(path.join(projPath + '/src/constants'));
@@ -32,7 +32,7 @@ function createInitProject(name, ownPath, projPath) {
 
   var pkgFileResult = fs.readFileSync(path.join(ownPath, '../templates/init/package.json'));
   pkgFileResultReplaced = pkgFileResult.toString().replace(/__NAME__/g, name);
-  fs.writeFileSync(path.join(projPath, '/src/package.json'), pkgFileResultReplaced);
+  fs.writeFileSync(path.join(projPath, '/package.json'), pkgFileResultReplaced);
 
   var indexResult = fs.readFileSync(path.join(ownPath, '../templates/init/index.js'));
   fs.writeFileSync(path.join(projPath, '/src/index.js'), indexResult.toString());
@@ -46,11 +46,11 @@ program
   .command('new <name>')
   .description('creates a react project using create-react-app and adds redux')
   .action(function (name) {
-    console.info('creating ' + name + '...');
+    console.info('creating ' + name + '... (take a few minutes)');
     exec('create-react-app ' + name, function(error, stdout, stderr) {
       if (error) return console.error('error to create project, you must have create-react-app installed');
+      initProject(name, __dirname, path.join(process.cwd(), name));
       console.info(stdout);
-      createInitProject(name, __dirname, process.cwd());
     });
   });
 
@@ -58,8 +58,11 @@ program
 program
   .command('init')
   .description('init redux in create-react-app project')
-  .action(function (name) {
-    console.info('modifying ' + name + '...');
+  .action(function () {
+    console.info('modifying project to use redux...');
+    initProject('', __dirname, process.cwd());
+    console.info('install the new packages');
+    console.info('modified');
   });
 
 program
